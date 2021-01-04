@@ -16,6 +16,7 @@ User can able to view 3 buttons
 
 ## ParkingLot - Model has fileds like Basic attribues like capacity and Name of the lot
 
+```
 type ParkingLot struct {
 	ID               int    `json:"id"`
 	Name             string `json:"name"`
@@ -23,9 +24,10 @@ type ParkingLot struct {
 	TwowheelerSlots  int    `json:"twowheeler_slots"`
 	Comments         string `json:"comments"`
 }
+```
 
 ## ParkingSlot ... Model has fileds like slot number type of slot(4 wheeler or 2 Wheeler) with respect to lotID
-
+```
 type ParkingSlot struct {
 	ID           int    `json:"id"`
 	Number       int    `json:"number"`
@@ -33,11 +35,12 @@ type ParkingSlot struct {
 	Type         string `json:"type"`
 	Occupied     bool   `json:"occupied"`
 }
+```
 
 2. Park vehicle : Once clicks on that, user can abel to view the free space available in parking lot and also user can see option of park a vehicle. Once user clicks on park 4 or 2 wheeler, user can navigate to Park Vehicle page to enter customer details. Once clicks on save the data will be saved and parking slot status will be updated
 
 ## ParkingSlotReservation .. Model has fileds like historic data of parking slot with respect to Vehicle and Customer
-
+```
 type ParkingSlotReservation struct {
 	ID            int    `json:"id"`
 	VehicleNumber string `json:"vehicleNumber"`
@@ -49,6 +52,7 @@ type ParkingSlotReservation struct {
 	InTime        string `json:"inTime"`
 	OutTime       string `json:"outTime"`
 }
+```
 
 3. Find/Exit Vehicle: Once clicks on that button user can serach vehicle location and exit vehicle from parking.
 
@@ -56,12 +60,14 @@ type ParkingSlotReservation struct {
 
 Create a .env file in the project root with the following name=value pair. You will need mysql database username password (not shown here)
 
+```
 db_host=127.0.0.1
 db_user=dbuser
 db_password=password
 db_port=3306
 db_type=mysql
 port=:8080
+```
 
 ```
 Build or Run Locally
