@@ -2,12 +2,9 @@ package services
 
 import (
 	"errors"
-	"log"
-	"task/base/db"
-	"task/constants"
-	"task/model"
-
-	"golang.org/x/exp/errors/fmt"
+	"parking-app-go/base/db"
+	"parking-app-go/constants"
+	"parking-app-go/model"
 )
 
 const (
@@ -26,7 +23,6 @@ type ParkingLotService struct {
 func NewParkingLotService(config model.Config) ParkingLotService {
 	linstance := db.Instance(config, "local").TableInstance(&model.ParkingLot{})
 	sinstance := db.Instance(config, "local").TableInstance(&model.ParkingSlot{})
-	log.Println("1111111111")
 	return ParkingLotService{
 		parkingLotTable:  linstance,
 		parkingSlotTable: sinstance,
@@ -36,10 +32,6 @@ func NewParkingLotService(config model.Config) ParkingLotService {
 
 //Create ...
 func (s *ParkingLotService) Create(input model.ParkingLot) error {
-	// t := model.ParkingLot{}
-	// t.FourwheelerSlots = 440
-	// s.parkingLotTable.Update(&t, "id = ?", 2)
-	// fmt.Println(t)
 	if !s.isValidInput(input) {
 		return errors.New(constants.InsuffInput)
 	}
@@ -47,7 +39,6 @@ func (s *ParkingLotService) Create(input model.ParkingLot) error {
 		return errors.New(constants.DataExists)
 	}
 	s.parkingLotTable.Insert(&input)
-	fmt.Println(input)
 	go s.processParkingSlots(input)
 	return nil
 }
@@ -79,6 +70,7 @@ func (s *ParkingLotService) createPrkingSlots(input model.ParkingLot, slotType s
 		p.Occupied = false
 		p.ParkingLotID = input.ID
 		pslots = append(pslots, p)
+		slotNum++
 	}
 	s.parkingSlotTable.Insert(&pslots)
 }
@@ -125,7 +117,7 @@ func enrichResponse(input []map[string]interface{}, parkinglots []model.ParkingL
 		r["id"] = p.ID
 		r["name"] = p.Name
 		r["fourwheeler_slots"] = p.FourwheelerSlots
-		r["tworwheeler_slots"] = p.TwowheelerSlots
+		r["twowheeler_slots"] = p.TwowheelerSlots
 		response = append(response, r)
 	}
 	return response

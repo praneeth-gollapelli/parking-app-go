@@ -11,3 +11,6 @@ const AlreadyAllotted = "Slot already allotted"
 
 //VehicleAlreadyAllotted ...
 const VehicleAlreadyAllotted = "Vehicle already allotted"
+
+//StatusSuccess ...
+const StatusSuccess = "success"

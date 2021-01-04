@@ -2,7 +2,7 @@ package db
 
 import (
 	"log"
-	"task/model"
+	"parking-app-go/model"
 
 	_ "github.com/jmoiron/sqlx"
 	"golang.org/x/exp/errors/fmt"
@@ -34,8 +34,8 @@ func (c mySQLTable) Insert(doc interface{}) {
 	return
 }
 
-func (c mySQLTable) Join(t1, query string, results interface{}) {
-	c.DB.Table(t1).Joins(query).Scan(results)
+func (c mySQLTable) Join(t1, query string, results interface{}, args ...interface{}) {
+	c.DB.Table(t1).Joins(query, args...).Scan(results)
 }
 
 func (c mySQLTable) Update(doc interface{}, query interface{}, args ...interface{}) {

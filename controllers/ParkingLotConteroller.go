@@ -3,11 +3,13 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"task/base"
-	"task/model"
-	"task/services"
 
 	"golang.org/x/exp/errors/fmt"
+
+	"parking-app-go/base"
+	"parking-app-go/constants"
+	"parking-app-go/model"
+	"parking-app-go/services"
 )
 
 // ParkingLotController ...
@@ -33,7 +35,7 @@ func (pl *ParkingLotController) Create(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(by, &input)
 	err := pl.ParkingLotService.Create(input)
 	resp := model.Response{}
-	resp.Status = "success"
+	resp.Status = constants.StatusSuccess
 	if err != nil {
 		resp.Status = err.Error()
 	}

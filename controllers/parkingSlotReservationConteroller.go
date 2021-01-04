@@ -3,9 +3,11 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
-	"task/base"
-	"task/model"
-	"task/services"
+
+	"parking-app-go/base"
+	"parking-app-go/constants"
+	"parking-app-go/model"
+	"parking-app-go/services"
 
 	"golang.org/x/exp/errors/fmt"
 )
@@ -26,13 +28,13 @@ func NewParkingSlotReservationConteroller(config model.Config) *ParkingSlotReser
 func (pl *ParkingSlotReservationConteroller) Create(w http.ResponseWriter, r *http.Request) {
 	var input model.ParkingSlotReservation
 	inputMap := base.PareBody(r)
-	inputMap["status"] = "PARKED"
+	lotID := base.StrToInt(inputMap["id"])
+	inputMap["status"] = "IN"
 	by, _ := json.Marshal(inputMap)
 	json.Unmarshal(by, &input)
-	fmt.Println(string(by[:]), input)
-	err := pl.ParkingSlotReservationService.Create(input)
+	err := pl.ParkingSlotReservationService.Create(input, lotID)
 	resp := model.Response{}
-	resp.Status = "success"
+	resp.Status = constants.StatusSuccess
 	resp.Data = inputMap
 	if err != nil {
 		resp.Status = err.Error()
@@ -53,7 +55,7 @@ func (pl *ParkingSlotReservationConteroller) LoadTemplate(w http.ResponseWriter,
 	fmt.Fprintf(w, str)
 }
 
-//LoadTemplate
+//Find
 func (pl *ParkingSlotReservationConteroller) Find(w http.ResponseWriter, r *http.Request) {
 	inputMap := base.PareBody(r)
 	parkingSlot := map[string]interface{}{}
@@ -61,9 +63,32 @@ func (pl *ParkingSlotReservationConteroller) Find(w http.ResponseWriter, r *http
 	resp.Status = ""
 	if inputMap["vehicleNumber"] != nil {
 		parkingSlot = pl.ParkingSlotReservationService.FindVehicle(inputMap["vehicleNumber"].(string))
-		resp.Status = "success"
+		if parkingSlot["vehicleNumber"] == "" {
+			resp.Status = "Not found !"
+		} else {
+			resp.Status = constants.StatusSuccess
+		}
 	}
 	resp.Data = parkingSlot
+	str := base.BindTemplate("templates/findAndExit.html", resp)
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, str)
+}
+
+//Find
+func (pl *ParkingSlotReservationConteroller) Exit(w http.ResponseWriter, r *http.Request) {
+	inputMap := base.PareBody(r)
+	resp := model.Response{}
+	resp.Status = ""
+	if inputMap["id"] != nil {
+		err := pl.ParkingSlotReservationService.Exit(inputMap)
+		resp.Status = "Exit failed"
+		if err == nil {
+			resp.Status = "Exit success"
+		}
+	}
+	inputMap["type"] = ""
+	resp.Data = inputMap
 	str := base.BindTemplate("templates/findAndExit.html", resp)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, str)

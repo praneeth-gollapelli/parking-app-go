@@ -2,12 +2,10 @@ package db
 
 import (
 	"log"
-	"task/model"
+	"parking-app-go/model"
 )
 
 func Instance(configObj model.Config, db string) Client {
-	// configObj := config.Instance()
-
 	dbType := dbType(configObj)
 
 	var dbClientObj Client
@@ -27,10 +25,8 @@ func Instance(configObj model.Config, db string) Client {
 
 func dbType(configObj model.Config) string {
 	dbType := configObj.DBType
-
 	if dbType == "" {
 		dbType = "mysql"
 	}
-
 	return dbType
 }

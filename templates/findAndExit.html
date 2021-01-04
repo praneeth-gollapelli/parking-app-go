@@ -23,7 +23,7 @@
 </br>
 </br>
 {{if (ne .Status "")}}
-<form action="/exit?id={{.Data.parkingSlotID}}" method="post" class="form_default">
+<form action="/exit?id={{.Data.id}}" method="post" class="form_default">
     <h2>Details</h2>
     {{if (ne .Status "")}}
     <div>
@@ -51,13 +51,19 @@
             <label for="type">Type </label>
             {{if (eq .Data.type "FOUR_WHEELER")}}
             <b>Four wheeler</b>
-            {{else}}
+            {{else if (eq .Data.type "TWO_WHEELER")}}
             <b>Two wheeler</b>
             {{end}}
         </li>
         <li>
             <label for="msg">Comments</label>{{.Data.comments}}
         </li>
+        {{if (eq .Status "success")}}
+
+        <li class="button">
+            <button type="submit">Exit</button>
+        </li>
+        {{end   }}
 </form>
 {{end}}
 

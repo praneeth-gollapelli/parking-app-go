@@ -2,18 +2,16 @@ package services
 
 import (
 	"errors"
+	"parking-app-go/base"
+	"parking-app-go/base/db"
+	"parking-app-go/constants"
+	"parking-app-go/model"
 	"strings"
-	"task/base"
-	"task/base/db"
-	"task/constants"
-	"task/model"
 	"time"
-
-	"golang.org/x/exp/errors/fmt"
 )
 
 const (
-	Query            = "JOIN parking_lots on id = parking_slots.parking_lot_id"
+	Query            = "JOIN parking_lots on parking_lots.id = parking_slots.parking_lot_id  AND parking_slots.id = ?"
 	parkingSlotTable = "parking_slots"
 )
 
@@ -36,41 +34,40 @@ func NewParkingSlotReservationService(config model.Config) ParkingSlotReservatio
 }
 
 //Create ...
-func (s *ParkingSlotReservationService) Create(input model.ParkingSlotReservation) error {
+func (s *ParkingSlotReservationService) Create(input model.ParkingSlotReservation, lotID int) error {
 	if !s.isValidInput(input) {
 		return errors.New(constants.InsuffInput)
 	}
-	if s.isSlotAllotted(input) {
-		return errors.New(constants.AlreadyAllotted)
-	}
 	if s.isValidVehicle(input) {
-		return errors.New(constants.AlreadyAllotted)
+		return errors.New(constants.VehicleAlreadyAllotted)
 	}
 	input.VehicleNumber = strings.ToUpper(strings.TrimSpace(input.VehicleNumber))
-	input.ParkingSlotID = 1
+	input.ParkingSlotID = s.getActiveParkingSlot(lotID, input.Type).ID
+	if input.ParkingSlotID == 0 {
+		return errors.New(constants.AlreadyAllotted)
+	}
 	input.InTime = time.Now().String()
 	input.OutTime = ""
 	s.parkingReservationTable.Insert(&input)
 	//update parking lot
-	s.updateParkingSlotStatus(input, true)
+	s.updateParkingSlotStatus(input.ParkingSlotID, true)
 	return nil
 }
 
 //Create ...
-func (s *ParkingSlotReservationService) Exit(input model.ParkingSlotReservation) error {
-	if input.ID == 0 || input.Status == "" {
-		return errors.New(constants.InsuffInput)
-	}
+func (s *ParkingSlotReservationService) Exit(params map[string]interface{}) error {
+	var input model.ParkingSlotReservation
 	input.OutTime = time.Now().String()
-	s.parkingReservationTable.Update(&input, "id = ?", input.ID)
-	s.updateParkingSlotStatus(input, false)
+	input.Status = "OUT"
+	s.parkingReservationTable.Update(&input, "id = ?", base.StrToInt(params["id"]))
+	s.updateParkingSlotStatus(base.StrToInt(params["parkingSlotID"]), false)
 	return nil
 }
 
-func (s *ParkingSlotReservationService) updateParkingSlotStatus(input model.ParkingSlotReservation, status bool) {
+func (s *ParkingSlotReservationService) updateParkingSlotStatus(slotID int, status bool) {
 	statusStruct := model.ParkingSlot{}
 	statusStruct.Occupied = status
-	s.parkingReservationTable.Update(&statusStruct, "id = ?", input.ParkingSlotID)
+	s.parkingReservationTable.Update(&statusStruct, "id = ?", slotID)
 }
 
 //
@@ -90,6 +87,12 @@ func (s *ParkingSlotReservationService) isSlotAllotted(input model.ParkingSlotRe
 	return false
 }
 
+func (s *ParkingSlotReservationService) getActiveParkingSlot(input int, tType string) model.ParkingSlot {
+	var resp model.ParkingSlot
+	s.parkingSlotTable.Find(&resp, "parking_lot_id = ? and occupied = false and type =?", input, tType)
+	return resp
+}
+
 func (s *ParkingSlotReservationService) isValidVehicle(input model.ParkingSlotReservation) bool {
 	parkingSlot := s.FindVehicle(input.VehicleNumber)
 	if parkingSlot["status"] == "IN" {
@@ -101,18 +104,13 @@ func (s *ParkingSlotReservationService) isValidVehicle(input model.ParkingSlotRe
 //FindVehicle ..
 func (s *ParkingSlotReservationService) FindVehicle(vehicleNumber string) map[string]interface{} {
 	var resp model.ParkingSlotReservation
-	s.parkingReservationTable.Find(&resp, "vehicle_number =  ? AND status = ?", vehicleNumber, "PARKED")
+	s.parkingReservationTable.Find(&resp, "vehicle_number =  ? AND status = ?", vehicleNumber, "IN")
 	respMap := base.StructToMap(resp)
-	if len(respMap) == 0 {
-		return map[string]interface{}{}
-	}
-	results := []map[string]interface{}{}
-	s.parkingSlotTable.Join(parkingSlotTable, Query, &results)
-	fmt.Println("resp", respMap, "results", results)
-
-	if len(results) == 0 {
+	if respMap["vehicleNumber"] == "" {
 		return respMap
 	}
-	respMap["parkingLot"] = results[0]
+	results := map[string]interface{}{}
+	s.parkingSlotTable.Join(parkingSlotTable, Query, &results, resp.ParkingSlotID)
+	respMap["parkingLot"] = results
 	return respMap
 }

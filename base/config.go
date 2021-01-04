@@ -3,7 +3,7 @@ package base
 import (
 	"log"
 	"os"
-	"task/model"
+	"parking-app-go/model"
 
 	"github.com/go-playground/validator"
 	"github.com/joho/godotenv"
@@ -21,6 +21,7 @@ func LoadConfig(config model.Config) model.Config {
 	config.DBType = os.Getenv("db_type")
 	config.DBUser = os.Getenv("db_user")
 	config.Port = os.Getenv("port")
+
 	validate := validator.New()
 	err = validate.Struct(config)
 	if err != nil {
