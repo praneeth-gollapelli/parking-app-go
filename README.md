@@ -73,6 +73,8 @@ port=:8080
 Build or Run Locally
 ```
 
+Run below commands from project root folder: 
+
 go get
 
 go run main.go or go build
