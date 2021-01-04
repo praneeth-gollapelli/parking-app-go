@@ -63,9 +63,9 @@ db_port=3306
 db_type=mysql
 port=:8080
 
-.....
+```
 Build or Run Locally
-.....
+```
 
 go get
 
@@ -73,9 +73,9 @@ go run main.go or go build
 
 if you use go build then run using ./parking-app-go.exe
 
-........
-Health check:
-........
+`````
+Health check or test:
+`````
 
 Use  http://localhost:8080 URL in browser, the reponse should be a homepage with above explained buttons
 alsoe you can see a log on console like `2021/01/05 02:46:50 Server started on: http://localhost:8080`
