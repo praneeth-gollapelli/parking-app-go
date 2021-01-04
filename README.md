@@ -1,18 +1,21 @@
 # parking-app-go
 
 ## purpose
+
 A  webserver which serves a UI for managing a parking lot
    1. Allocate a parking lot to a vehicle [2 wheelers, 4 wheelers]
    2. Capacity to find allotted parking lot for a user [User forgot his parking stop]
    3. Ability to tell free space available in parking lot
 
 ## usage and implementation
+
 User can able to view home page once open the application using URL ex: http://localhost:8080
 User can able to view 3 buttons
 
 1. Add parking lot : Once clicks on that user will have an option of create parking lot with capacity of 4 and 2 wheelers once user clicks on save button, system will create a parking lot and respected parking slots based on capacity
 
 ## ParkingLot - Model has fileds like Basic attribues like capacity and Name of the lot
+
 type ParkingLot struct {
 	ID               int    `json:"id"`
 	Name             string `json:"name"`
@@ -22,6 +25,7 @@ type ParkingLot struct {
 }
 
 ## ParkingSlot ... Model has fileds like slot number type of slot(4 wheeler or 2 Wheeler) with respect to lotID
+
 type ParkingSlot struct {
 	ID           int    `json:"id"`
 	Number       int    `json:"number"`
@@ -33,6 +37,7 @@ type ParkingSlot struct {
 2. Park vehicle : Once clicks on that, user can abel to view the free space available in parking lot and also user can see option of park a vehicle. Once user clicks on park 4 or 2 wheeler, user can navigate to Park Vehicle page to enter customer details. Once clicks on save the data will be saved and parking slot status will be updated
 
 ## ParkingSlotReservation .. Model has fileds like historic data of parking slot with respect to Vehicle and Customer
+
 type ParkingSlotReservation struct {
 	ID            int    `json:"id"`
 	VehicleNumber string `json:"vehicleNumber"`
