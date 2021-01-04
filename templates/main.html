@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/default.css">
+    <style>
+        body {
+            background-image: url('/static/p4.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding: 20px;
+        }
+
+        .header {
+            /* text-align: center; */
+            font-family: italic;
+            color: #3C4252;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .h1 {
+            font-size: 50px !important;
+
+        }
+
+        .h3 {
+            font-size: 30px !important;
+
+        }
+
+        .p1 {
+            font-size: 23px !important;
+
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-top: 20px;
+            margin-left: 20px;
+            color: #fff;
+            background-color: #3C4252;
+            font-size: 18px;
+            border-radius: 8px;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="header">
+            <h1 class="h1">Welcome to</h1>
+            <h3 class="h3">The Car Parking Management System</h3>
+        </div>
+        <br>
+        <br>
+        <div>
+            <form method="GET" action="new">
+                <button class="alignment">
+                    Add New Parking Lot
+                </button>
+            </form>
+            <form method="GET" action="find">
+                <button class="alignment">
+                    Find/Exit Vehicle
+                </button>
+            </form>
+            <form method=" GET" action="show">
+                <button class="alignment">
+                    Park Vehicle
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

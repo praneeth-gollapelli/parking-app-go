@@ -1,0 +1,102 @@
+body {
+  font: normal medium/1.4 sans-serif;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border:1;
+}
+th, td {
+  padding: 0.25rem;
+  text-align: left;
+  color: #3C4252 !important;
+  border: 1px solid #ccc;
+}
+tbody tr:nth-child(odd) {
+  background: #eee;
+}
+
+.button {
+  /* background-color: #ccc !important; */
+  /* padding: 12px 28px; */
+  text-align: center;
+float:center;
+  font-size: 16px;
+  margin: 5px 5px;
+  cursor: pointer;
+}
+
+.alignment{
+  float: right !important;
+}
+
+.alignment_center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+
+.form{
+  padding: 10px 15px;
+  margin-top: 20px;
+}
+
+.form_default {
+  margin: 0 auto;
+  width: 500px;
+  padding: 2em;
+  border: 1px solid #CCC;
+  border-radius: 2em;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+form li+li {
+  margin-top: 1em;
+}
+
+label {
+  display: inline-block;
+  width: 150px;
+  text-align: left;
+  font-weight: bold;
+}
+
+input,
+textarea {
+  font: 1em sans-serif;
+  width: 300px;
+  box-sizing: border-box;
+  border: 1px solid #999;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #000;
+}
+
+textarea {
+  vertical-align: top;
+  height: 5em;
+}
+
+.button {
+  margin-left: .5em;
+  padding-right: 40px;
+text-align: right;
+}
+
+
+/* .button1 {
+  background-color: white;
+  color: black;
+}
+.button1:hover {
+  background-color:white;
+  color: black;
+} */

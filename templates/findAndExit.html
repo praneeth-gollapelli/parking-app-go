@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/default.css">
+</head>
+<form action="/find" class="form_default">
+    <h2>Search and Exit Vehicle</h2>
+    <a href="/">Click here for Home menu</a>
+    </br>
+    </br>
+    <ul>
+        <li>
+            <label> Vehicle No </label><input type="text" name="vehicleNumber" /><br />
+        <li class="button">
+            <button type="submit">Search</button>
+        </li>
+        </li>
+    </ul>
+</form>
+</br>
+</br>
+{{if (ne .Status "")}}
+<form action="/exit?id={{.Data.parkingSlotID}}" method="post" class="form_default">
+    <h2>Details</h2>
+    {{if (ne .Status "")}}
+    <div>
+        <h3>{{.Status}}</h3>
+        </br>
+    </div>
+    {{end}}
+    <ul>
+        <li>
+            <label for="parkingLot">Parking Lot</label> {{.Data.parkingLot.name}}
+        </li>
+        <li>
+            <label for="Parking Slot">Parking Slot</label> {{.Data.parkingSlotID}}
+        </li>
+        <li>
+            <label for="vehicleNumber">Vehicle No</label> {{.Data.vehicleNumber}}
+        </li>
+        <li>
+            <label for="name">Customer Name</label> {{.Data.name}}
+        </li>
+        <li>
+            <label for="contacNumber">Contact Number</label> {{.Data.contacNumber}}
+        </li>
+        <li>
+            <label for="type">Type </label>
+            {{if (eq .Data.type "FOUR_WHEELER")}}
+            <b>Four wheeler</b>
+            {{else}}
+            <b>Two wheeler</b>
+            {{end}}
+        </li>
+        <li>
+            <label for="msg">Comments</label>{{.Data.comments}}
+        </li>
+</form>
+{{end}}
+
+</html>

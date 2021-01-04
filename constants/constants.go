@@ -1,0 +1,13 @@
+package constants
+
+//InsuffInput ...
+const InsuffInput = "Insufficinet input parameters"
+
+//DataExists ...
+const DataExists = "Data already exists"
+
+//AlreadyAllotted ...
+const AlreadyAllotted = "Slot already allotted"
+
+//VehicleAlreadyAllotted ...
+const VehicleAlreadyAllotted = "Vehicle already allotted"

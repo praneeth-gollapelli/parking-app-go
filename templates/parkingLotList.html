@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="/static/css/default.css">
+
+<body>
+
+    <div class="w3-container">
+        <h2> Parking Lot Details </h2>
+        <div><a href="/">Click here for Home menu</a></div>
+        </br>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td><b>Parking Lot ID</b></td>
+                    <td><b>Name</b></td>
+                    <td><b>No. of 4 Wheelers slots</b></td>
+                    <td><b>No. of 2 Wheelers slots</b></td>
+                    <td><b>Available 4 Wheeler Slots</b></td>
+                    <td><b>Available 2 Wheeler Slots</b></td>
+                    <td><b>Park 4 Wheeler</b></td>
+                    <td><b>Park 2 Wheeler</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range . }}
+                <tr>
+                    <td>{{ .id }}</td>
+                    <td> {{ .name }} </td>
+                    <td>{{ .fourwheeler_slots }} </td>
+                    <td>{{ .twowheeler_slots }}</td>
+                    <td> {{ .available_fourwheeler_slots }} </td>
+                    <td>{{ .available_twowheeler_slots }} </td>
+                    {{if (ne .available_fourwheeler_slots 0)}}
+                    <td><a href="/park?id={{ .id }}&type=FOUR_WHEELER">Park 4 Wheeler</a></td>
+                    {{else}}
+                    <td> - </td>
+                    {{end}}
+                    {{if (ne .available_twowheeler_slots 0)}}
+                    <td><a href="/park?id={{ .id }}&type=TWO_WHEELER">Park 2 Wheeler</a></td>
+                    {{else}}
+                    <td> - </td>
+                    {{end}}
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+</html>

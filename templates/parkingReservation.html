@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/default.css">
+</head>
+
+<form action="/park/vehicle?id={{.Data.id}}&type={{.Data.type}}" method="post" class="form_default">
+    <h2>Park Vehicle</h2>
+    {{if (ne .Status "")}}
+    <div>
+        <h3> Status {{.Status}}</h3>
+    </div>
+    {{end}}
+    <div><a href="/">Click here for Home menu</a></div>
+    </br>
+    <ul>
+        <li>
+            <label for="vehicleNumber">Vehicle No</label>
+            <input type="text" id="vehicleNumber" name="vehicleNumber">
+        </li>
+        <li>
+            <label for="name">Customer Name</label>
+            <input type="text" id="name" name="name">
+        </li>
+        <li>
+            <label for="contacNumber">Contact Number</label>
+            <input type="text" id="contacNumber" name="contacNumber">
+        </li>
+        <li>
+            <label for="type">Type </label>
+            {{if (eq .Data.type "FOUR_WHEELER")}}
+            <b>Four wheeler</b>
+            {{else}}
+            <b>Two wheeler</b>
+            {{end}}
+        </li>
+        <li>
+            <label for="msg">Comments</label>
+            <textarea id="msg" name="comments"></textarea>
+        </li>
+        <li class="button">
+            <button type="submit">Save</button>
+        </li>
+    </ul>
+</form>
+
+</html>
