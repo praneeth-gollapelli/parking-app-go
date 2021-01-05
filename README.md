@@ -33,8 +33,9 @@ type ParkingSlot struct {
 	Number       int    `json:"number"`
 	ParkingLotID int    `json:"parkingLotID"`
 	Type         string `json:"type"`
-	Occupied     bool   `json:"occupied"`
+	Occupied     string `json:"occupied"`
 }
+
 ```
 
 2. Park vehicle : Once clicks on that, user can abel to view the free space available in parking lot and also user can see option of park a vehicle. Once user clicks on park 4 or 2 wheeler, user can navigate to Park Vehicle page to enter customer details. Once clicks on save the data will be saved and parking slot status will be updated
@@ -48,6 +49,7 @@ type ParkingSlotReservation struct {
 	ContacNumber  string `json:"contacNumber"`
 	Type          string `json:"type"`
 	ParkingSlotID int    `json:"parkingSlotID"`
+	ParkingSlotNo int    `json:"parkingSlotNo"`
 	Status        string `json:"status"`
 	InTime        string `json:"inTime"`
 	OutTime       string `json:"outTime"`
