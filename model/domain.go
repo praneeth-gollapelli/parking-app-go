@@ -17,7 +17,7 @@ type ParkingSlot struct {
 	Number       int    `json:"number"`
 	ParkingLotID int    `json:"parkingLotID"`
 	Type         string `json:"type"`
-	Occupied     bool   `json:"occupied"`
+	Occupied     string `json:"occupied"`
 }
 
 //ParkingSlotReservation .. Model has fileds like historic data of parking slot with respect to Vehicle and Customer
@@ -28,6 +28,7 @@ type ParkingSlotReservation struct {
 	ContacNumber  string `json:"contacNumber"`
 	Type          string `json:"type"`
 	ParkingSlotID int    `json:"parkingSlotID"`
+	ParkingSlotNo int    `json:"parkingSlotNo"`
 	Status        string `json:"status"`
 	InTime        string `json:"inTime"`
 	OutTime       string `json:"outTime"`

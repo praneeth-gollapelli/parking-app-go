@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	joinQuery = "JOIN parking_slots on parking_lot_id = parking_lots.id and occupied=false"
+	joinQuery = "JOIN parking_slots on parking_lot_id = parking_lots.id and parking_slots.occupied = ?"
 	table     = "parking_lots"
 )
 
@@ -43,6 +43,28 @@ func (s *ParkingLotService) Create(input model.ParkingLot) error {
 	return nil
 }
 
+//FindByID ...
+func (s *ParkingLotService) FindByID(input map[string]interface{}) []model.ParkingLot {
+	var resp []model.ParkingLot
+	s.parkingLotTable.Find(&resp, "id = ?", input["id"])
+
+	return resp
+}
+
+//FindByGroup ...
+func (s *ParkingLotService) FindByGroup() []map[string]interface{} {
+	parkinglots := []model.ParkingLot{}
+	s.parkingLotTable.Find(&parkinglots, nil, nil)
+	results := []map[string]interface{}{}
+	s.parkingLotTable.Join(table, joinQuery, &results, "NO")
+	resp := enrichResponse(results, parkinglots)
+	return resp
+}
+
+/*
+Below are the helper funcs
+*/
+
 func (s *ParkingLotService) processParkingSlots(input model.ParkingLot) {
 	if input.FourwheelerSlots > 0 {
 		s.createPrkingSlots(input, "FOUR_WHEELER")
@@ -67,7 +89,7 @@ func (s *ParkingLotService) createPrkingSlots(input model.ParkingLot, slotType s
 		p := model.ParkingSlot{}
 		p.Number = slotNum
 		p.Type = slotType
-		p.Occupied = false
+		p.Occupied = "NO"
 		p.ParkingLotID = input.ID
 		pslots = append(pslots, p)
 		slotNum++
@@ -89,24 +111,6 @@ func (s *ParkingLotService) isNameExists(input model.ParkingLot) bool {
 		return true
 	}
 	return false
-}
-
-//FindByID ...
-func (s *ParkingLotService) FindByID(input map[string]interface{}) []model.ParkingLot {
-	var resp []model.ParkingLot
-	s.parkingLotTable.Find(&resp, "id = ?", input["id"])
-
-	return resp
-}
-
-//FindByID ...
-func (s *ParkingLotService) FindByGroup() []map[string]interface{} {
-	parkinglots := []model.ParkingLot{}
-	s.parkingLotTable.Find(&parkinglots, nil, nil)
-	results := []map[string]interface{}{}
-	s.parkingLotTable.Join(table, joinQuery, &results)
-	resp := enrichResponse(results, parkinglots)
-	return resp
 }
 
 func enrichResponse(input []map[string]interface{}, parkinglots []model.ParkingLot) []map[string]interface{} {

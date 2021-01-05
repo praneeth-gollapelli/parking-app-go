@@ -23,7 +23,7 @@
 </br>
 </br>
 {{if (ne .Status "")}}
-<form action="/exit?id={{.Data.id}}" method="post" class="form_default">
+<form action="/exit?id={{.Data.id}}&parkingSlotID={{.Data.parkingSlotID}}" method="post" class="form_default">
     <h2>Details</h2>
     {{if (ne .Status "")}}
     <div>
@@ -36,7 +36,7 @@
             <label for="parkingLot">Parking Lot</label> {{.Data.parkingLot.name}}
         </li>
         <li>
-            <label for="Parking Slot">Parking Slot</label> {{.Data.parkingSlotID}}
+            <label for="Parking Slot">Parking Slot</label> {{.Data.parkingSlotNo}}
         </li>
         <li>
             <label for="vehicleNumber">Vehicle No</label> {{.Data.vehicleNumber}}
