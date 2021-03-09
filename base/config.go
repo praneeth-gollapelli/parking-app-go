@@ -30,6 +30,6 @@ func LoadConfig(config model.Config) model.Config {
 			log.Fatalf("Invalid .env file errors: %s", err)
 		}
 	}
-	fmt.Println("test commit2")
+	fmt.Println("test commit3")
 	return config
 }
