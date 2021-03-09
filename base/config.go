@@ -21,6 +21,7 @@ func LoadConfig(config model.Config) model.Config {
 	config.DBType = os.Getenv("db_type")
 	config.DBUser = os.Getenv("db_user")
 	config.Port = os.Getenv("port")
+	fmt.Println("test commit")
 
 	validate := validator.New()
 	err = validate.Struct(config)
