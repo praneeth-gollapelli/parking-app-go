@@ -1,6 +1,7 @@
 package base
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"parking-app-go/model"
@@ -30,5 +31,6 @@ func LoadConfig(config model.Config) model.Config {
 			log.Fatalf("Invalid .env file errors: %s", err)
 		}
 	}
+	fmt.Println("test commit1")
 	return config
 }
